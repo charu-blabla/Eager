@@ -1,0 +1,10 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+# Cleaner client-side path: the browser calls /api/personalize,
+# Netlify quietly routes it to the actual function path.
+[[redirects]]
+  from = "/api/personalize"
+  to = "/.netlify/functions/personalize"
+  status = 200

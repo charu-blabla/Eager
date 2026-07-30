@@ -1,0 +1,45 @@
+/* ===== Design Tokens (locked Day 2 — ARCHITECTURE.md) ===== */
+:root {
+  --color-teal: #14B8A6;
+  --color-teal-dark: #0F766E;
+  --color-gold: #D97706;
+  --color-bg: #111827;
+  --color-bg-light: #1F2937;
+  --color-text: #F9FAFB;
+  --color-text-muted: #9CA3AF;
+
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  min-height: 100vh;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-heading);
+}
+
+#app {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem;
+}
+
+.loading-placeholder {
+  color: var(--color-text-muted);
+  text-align: center;
+  margin-top: 4rem;
+}
+
+/* Screens, cards, forms, etc. get built out starting Day 5 —
+   this file only holds the shared foundation for now. */
