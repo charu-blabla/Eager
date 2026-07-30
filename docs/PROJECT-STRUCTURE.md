@@ -1,39 +1,48 @@
 # Eager — Project Structure
 
-This is the complete folder structure for v1.0. Every folder below is used by a specific day in the Implementation Blueprint — nothing here is speculative.
+Status: Day 3 foundation complete — structure below reflects what actually exists in the repo now, not just the plan.
 
 ```
 Eager/
-├── index.html                 # Single HTML shell — all 4 screens render into it
-├── style.css                  # Design tokens + all screen styles
-├── netlify.toml                # Netlify config: build settings, function routing
+├── index.html                 # ✅ Built Day 3 — single HTML shell, all screens render into it
+├── style.css                  # ✅ Built Day 3 — design tokens + base styles (screen-specific styles added Days 5-7)
+├── netlify.toml                # ✅ Built Day 3 — routes /api/personalize to the function
+├── package.json                # ✅ Built Day 3 — project metadata + dev script
+├── .env                        # ✅ Created Day 3 (local only, never committed) — holds ANTHROPIC_API_KEY
+├── .env.example                 # ✅ Built Day 3 — committed template, no real key
 ├── .gitignore
 ├── LICENSE
-├── README.md                  # Project overview, live link, screenshots (finalized Day 10)
+├── README.md                  # Still placeholder — finalized Day 10
 │
 ├── js/
-│   ├── main.js                 # Entry point — app state, screen routing, wiring
-│   ├── matching.js              # Client-side idea filtering (Day 5)
-│   ├── ai.js                    # Calls /api/personalize, handles loading/error states (Day 6)
-│   ├── favorites.js             # localStorage read/write (Day 7)
-│   └── render.js                # DOM rendering for all 4 screens (Days 3, 5, 6, 7)
+│   ├── main.js                 # ✅ Built Day 3 (Hello World) — full routing wired Days 5-7
+│   ├── matching.js              # ✅ Stub Day 3 — filtering logic implemented Day 5
+│   ├── ai.js                    # ✅ Stub Day 3 — real fetch() to /api/personalize implemented Day 6
+│   ├── favorites.js             # ✅ Stub Day 3 — localStorage logic implemented Day 7
+│   └── render.js                # ✅ Stub Day 3 — screen rendering implemented Days 3/5/6/7
 │
 ├── data/
-│   └── ideas.js                 # 40 curated idea objects (Day 4) — see SCHEMA.md
+│   └── ideas.js                 # ✅ Stub Day 3 (empty array) — 40 curated ideas added Day 4
 │
 ├── netlify/
 │   └── functions/
-│       └── personalize.js       # Serverless proxy to Anthropic API (Day 3 scaffold, Day 6 build) — see API.md
+│       └── personalize.js       # ✅ Built Day 3 — working stub returning fake data, verified locally; real Anthropic call added Day 6
 │
-├── docs/                        # This design documentation (Day 2)
+├── docs/                        # ✅ Day 2 design docs + Day 3 setup docs, all committed
 │   ├── ARCHITECTURE.md
 │   ├── SCHEMA.md
 │   ├── API.md
 │   ├── UI-WIREFRAMES.md
-│   ├── PROJECT-STRUCTURE.md
-│   └── PROJECT-LOG.md           # Daily progress log, updated each day
+│   ├── PROJECT-STRUCTURE.md     # (this file)
+│   ├── PROJECT-LOG.md
+│   ├── SETUP.md                 # ✅ New Day 3
+│   ├── ENVIRONMENT.md           # ✅ New Day 3
+│   ├── DAY3-SUMMARY.md          # ✅ New Day 3
+│   ├── PRD.md
+│   ├── IMPLEMENTATION-BLUEPRINT.md
+│   └── PITCH-DECK.md
 │
-└── TESTING.md                   # Test checklist + bug log (Day 8)
+└── TESTING.md                   # Not yet created — Day 8
 ```
 
 ## Folder Responsibilities

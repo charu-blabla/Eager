@@ -34,4 +34,20 @@ A running record of daily progress for the AB Talks 60-Day Claude AI Challenge �
 
 ---
 
-## Day 3 — *(not yet started)*
+## Day 3 — Project Setup & Foundation
+
+**Focus:** Development environment, project scaffolding, working "Hello World."
+
+- Installed and verified full dev environment: Node.js 24 LTS, npm, Netlify CLI, Anthropic API key
+- Built the complete project foundation: HTML shell, CSS design tokens, all JS module stubs, `netlify.toml`, `package.json`
+- **Verified the Netlify serverless function end-to-end locally** — the AI-proxy scaffold moved from Day 9 (per Day 2's decision) is now proven working, 6 days ahead of deployment
+- Confirmed `.env` correctly protected by `.gitignore`
+- Ran the app locally via `netlify dev` — static site and function both verified working
+- Decided branching strategy: direct commits to `main` (appropriate for a solo, time-boxed capstone)
+- **Security incident:** an API key was briefly exposed via a screenshot sent through WhatsApp during setup — caught immediately, revoked, and replaced. Lesson documented in `ENVIRONMENT.md`.
+- **Deliverables:** `SETUP.md`, `ENVIRONMENT.md`, `DAY3-SUMMARY.md`, updated `PROJECT-STRUCTURE.md`
+- **Lesson learned:** always verify a manual step actually completed rather than assuming — several Day 3 detours (Node PATH, PowerShell execution policy, Git case-sensitivity, API key exposure) were all caught by checking screenshots rather than assuming success.
+
+---
+
+## Day 4 — *(not yet started)*
