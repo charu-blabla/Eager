@@ -53,7 +53,7 @@ Existing options — asking ChatGPT/Claude directly, browsing GitHub "awesome pr
 - Idea expansion: clicking an idea generates an AI-personalized brief — tailored features, folder structure, learning roadmap, resume-ready description
 - Favorites: star/unstar ideas, revisit them later (browser-based storage, no login)
 - Share: generate a shareable link/button for any expanded idea
-- Responsive, polished, single dark-first theme (teal-and-gold palette)
+- Responsive, polished, single dark-first theme ("Precision Workshop" — Precision Violet + Midnight Slate palette)
 - Deployed to a free, public hosting URL
 
 ### 5.2 Explicitly Out of Scope for v1.0 (Future / v2)

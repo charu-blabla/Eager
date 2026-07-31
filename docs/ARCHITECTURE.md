@@ -12,7 +12,7 @@ Status: Locked Day 2. Do not redesign without flagging a conflict with the PRD.
 | Authentication | None | Explicitly out of scope for v1.0 |
 | AI Model/API | Anthropic API (`claude-sonnet-4-6`, `/v1/messages`), called from the serverless function, never from the browser | Keeps the API key private in a publicly deployed static site |
 | Hosting | Netlify | Free tier; static hosting + serverless functions on one platform, git-linked auto-deploy |
-| Fonts | Google Fonts CDN — Space Grotesk (headings), Inter (body), IBM Plex Mono (code/technical output) | Matches locked design tokens, zero install |
+| Fonts | Google Fonts CDN — Hanken Grotesk (headings), Manrope (body), IBM Plex Mono (code/technical output) | Matches the "Precision Workshop" design system, zero install |
 | Version control | Git + GitHub | Already set up (`github.com/charu-blabla/Eager`) |
 
 **Environment variables:** `ANTHROPIC_API_KEY` is set in the Netlify dashboard (Site settings → Environment variables), never committed to the repo. `.gitignore` already excludes `.env`.

@@ -1,15 +1,14 @@
-/* ===== Design Tokens (locked Day 2 — ARCHITECTURE.md) ===== */
+/* ===== Design Tokens (Reskinned Day 3 — "Precision Workshop") ===== */
 :root {
-  --color-teal: #14B8A6;
-  --color-teal-dark: #0F766E;
-  --color-gold: #D97706;
-  --color-bg: #111827;
-  --color-bg-light: #1F2937;
-  --color-text: #F9FAFB;
-  --color-text-muted: #9CA3AF;
+  --color-violet: #7C3AED;
+  --color-violet-dark: #5B21B6;
+  --color-slate-bg: #0F172A;
+  --color-slate-bg-light: #1E293B;
+  --color-text: #F1F5F9;
+  --color-text-muted: #94A3B8;
 
-  --font-heading: 'Space Grotesk', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  --font-heading: 'Hanken Grotesk', sans-serif;
+  --font-body: 'Manrope', sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
 }
 
@@ -19,7 +18,7 @@
 
 body {
   margin: 0;
-  background: var(--color-bg);
+  background: var(--color-slate-bg);
   color: var(--color-text);
   font-family: var(--font-body);
   min-height: 100vh;

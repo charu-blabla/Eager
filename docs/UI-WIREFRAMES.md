@@ -23,14 +23,14 @@ flowchart TD
 
 ## 2. Screens (4 total — matches PRD Core User Flow §6)
 
-| Screen | Exists Because |
+| Screen (Day 3 reskin name) | Exists Because |
 |---|---|
-| Input Form | FR-1–FR-4: collect skill/stack/time |
-| Idea List | FR-5–FR-7: browse all matches |
-| Idea Detail | FR-8–FR-10: personalized brief |
-| Favorites | FR-11–FR-12: revisit saved ideas |
+| Skill Selection (was: Input Form) | FR-1–FR-4: collect skill/stack/time |
+| Discover Project Ideas (was: Idea List) | FR-5–FR-7: browse all matches |
+| Project Roadmap & Tools (was: Idea Detail) | FR-8–FR-10: personalized brief |
+| My Saved Roadmaps (was: Favorites) | FR-11–FR-12: revisit saved ideas |
 
-No dashboard, no settings, no onboarding screen — v1.0 scope stays exactly to what the PRD defines.
+No dashboard, no settings, no onboarding screen — v1.0 scope stays exactly to what the PRD defines. **Note:** these are naming/styling updates only (Day 3 "Precision Workshop" reskin) — the underlying functionality per FR-1–FR-13 is unchanged. "Viability scores" from the original Stitch concept were explicitly not adopted, to protect v1.0 scope.
 
 ## 3. Low-Fidelity Wireframes
 
