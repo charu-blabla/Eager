@@ -50,4 +50,15 @@ A running record of daily progress for the AB Talks 60-Day Claude AI Challenge �
 
 ---
 
-## Day 4 — *(not yet started)*
+## Day 4 — Curated Idea Bank
+
+**Focus:** Content — populating the core product asset.
+
+- Created `data/stacks.js` — the fixed 12-option stack list (JavaScript, TypeScript, Python, Java, C++, HTML/CSS, React, Node.js, Flutter, Kotlin, Swift, SQL), shared source of truth for idea tags and Day 5's checkboxes
+- Wrote all 40 curated ideas into `data/ideas.js` — 10 each across Web, Mobile, AI, DSA
+- Verified programmatically: 40 total, 10/domain, zero duplicate IDs, zero invalid stack tags, clean 3-4-3 difficulty spread in every domain
+- No architecture changes — pure content work on top of Day 2's locked schema
+
+---
+
+## Day 5 — *(not yet started)*

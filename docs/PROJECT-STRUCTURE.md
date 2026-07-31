@@ -22,7 +22,8 @@ Eager/
 │   └── render.js                # ✅ Stub Day 3 — screen rendering implemented Days 3/5/6/7
 │
 ├── data/
-│   └── ideas.js                 # ✅ Stub Day 3 (empty array) — 40 curated ideas added Day 4
+│   ├── ideas.js                 # ✅ Built Day 4 — all 40 curated ideas, verified (10/domain, no dupes, valid stack tags)
+│   └── stacks.js                # ✅ New Day 4 — fixed 12-option stack list, shared by ideas.js tags and Day 5's checkboxes
 │
 ├── netlify/
 │   └── functions/

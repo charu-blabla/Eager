@@ -16,7 +16,7 @@ A static array of 40 objects, exported as the single source of idea content. Wri
 | `hook` | string | One sentence, ≤120 characters — shown on the IdeaCard |
 | `difficulty` | string | One of exactly: `"Beginner"`, `"Intermediate"`, `"Advanced"` |
 | `estimatedWeeks` | number | Positive integer — realistic solo build time at the stated difficulty |
-| `suggestedStacks` | array of strings | Must match the fixed checkbox option list defined in the InputForm exactly (case-sensitive) |
+| `suggestedStacks` | array of strings | Must match the fixed checkbox option list defined in `data/stacks.js` exactly (case-sensitive) |
 | `baseDescription` | string | 2–4 sentences — input context for AI personalization, not shown raw to the user |
 | `coreConcepts` | array of strings | 3–5 short skill/concept tags, e.g. `["REST APIs", "local storage", "form validation"]` |
 
