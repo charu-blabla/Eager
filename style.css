@@ -1,11 +1,17 @@
-/* ===== Design Tokens (Reskinned Day 3 — "Precision Workshop") ===== */
+/* ===== Design Tokens ("Precision Workshop" — Light Theme + Visual Polish, Day 5) ===== */
 :root {
   --color-violet: #7C3AED;
   --color-violet-dark: #5B21B6;
-  --color-slate-bg: #0F172A;
-  --color-slate-bg-light: #1E293B;
-  --color-text: #F1F5F9;
-  --color-text-muted: #94A3B8;
+  --color-violet-tint: #F3EEFE;
+  --color-bg: #F8FAFC;
+  --color-surface: #FFFFFF;
+  --color-text: #0F172A;
+  --color-text-muted: #64748B;
+  --color-border: #E2E8F0;
+  --color-error: #DC2626;
+  --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-card-hover: 0 6px 16px rgba(15, 23, 42, 0.09);
+  --shadow-btn: 0 4px 12px rgba(124, 58, 237, 0.25);
 
   --font-heading: 'Hanken Grotesk', sans-serif;
   --font-body: 'Manrope', sans-serif;
@@ -18,7 +24,7 @@
 
 body {
   margin: 0;
-  background: var(--color-slate-bg);
+  background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
   min-height: 100vh;
@@ -26,12 +32,13 @@ body {
 
 h1, h2, h3 {
   font-family: var(--font-heading);
+  margin: 0;
 }
 
 #app {
-  max-width: 720px;
+  max-width: 760px;
   margin: 0 auto;
-  padding: 2rem 1.25rem;
+  padding: 2.5rem 1.25rem 4rem;
 }
 
 .loading-placeholder {
@@ -40,5 +47,289 @@ h1, h2, h3 {
   margin-top: 4rem;
 }
 
-/* Screens, cards, forms, etc. get built out starting Day 5 —
-   this file only holds the shared foundation for now. */
+/* ===== Shared ===== */
+.app-title {
+  font-size: 2.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.app-title-sm {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.app-subtitle {
+  color: var(--color-text-muted);
+  margin: 0.5rem 0 2.25rem;
+  font-size: 1rem;
+}
+
+/* Pill-shaped primary button with arrow, matching the reference mockups */
+.btn-primary {
+  background: var(--color-violet);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 0.9rem 1.75rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: var(--shadow-btn);
+  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+.btn-primary:hover {
+  background: var(--color-violet-dark);
+  box-shadow: 0 6px 18px rgba(91, 33, 182, 0.32);
+  transform: translateY(-1px);
+}
+
+.btn-arrow {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0;
+}
+
+.btn-link:hover {
+  color: var(--color-violet);
+}
+
+/* ===== Input Form ===== */
+.input-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.9rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  padding: 1.85rem;
+  box-shadow: var(--shadow-card);
+}
+
+.form-group {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.form-group legend {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 0.85rem;
+  padding: 0;
+}
+
+.radio-row {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* Selectable "card" style toggles — selected state shows violet border,
+   tinted background, and a checkmark badge, matching the reference design. */
+.radio-option,
+.checkbox-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: 10px;
+  padding: 0.7rem 1.1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.radio-option:hover,
+.checkbox-option:hover {
+  border-color: var(--color-violet);
+}
+
+.radio-option input,
+.checkbox-option input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.check-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-violet);
+  color: #fff;
+  font-size: 0.65rem;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.12s ease, transform 0.12s ease;
+}
+
+.radio-option:has(input:checked),
+.checkbox-option:has(input:checked) {
+  border-color: var(--color-violet);
+  background: var(--color-violet-tint);
+  box-shadow: 0 0 0 1px var(--color-violet);
+}
+
+.radio-option:has(input:checked) .check-icon,
+.checkbox-option:has(input:checked) .check-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.radio-option:has(input:focus-visible),
+.checkbox-option:has(input:focus-visible) {
+  outline: 2px solid var(--color-violet);
+  outline-offset: 2px;
+}
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.6rem;
+}
+
+.time-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.number-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  flex: 1;
+}
+
+.number-field input {
+  background: var(--color-bg);
+  border: 1.5px solid var(--color-border);
+  border-radius: 10px;
+  padding: 0.65rem 0.75rem;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+}
+
+.number-field input:focus {
+  outline: 2px solid var(--color-violet);
+  outline-offset: 1px;
+  border-color: var(--color-violet);
+}
+
+.field-error {
+  color: var(--color-error);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  font-weight: 600;
+}
+
+/* ===== Idea List ===== */
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.75rem;
+}
+
+.results-count {
+  color: var(--color-text-muted);
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.results-note {
+  background: var(--color-violet-tint);
+  border-left: 3px solid var(--color-violet);
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: var(--color-violet-dark);
+  margin: 0 0 1.25rem;
+}
+
+.idea-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.idea-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 1.2rem 1.35rem;
+  text-align: left;
+  cursor: pointer;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.idea-card:hover {
+  border-color: var(--color-violet);
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
+}
+
+.domain-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  padding: 0.28rem 0.6rem;
+  border-radius: 999px;
+  margin-bottom: 0.65rem;
+  background: var(--color-violet-tint);
+  color: var(--color-violet-dark);
+  font-weight: 700;
+}
+
+.idea-title {
+  font-size: 1.08rem;
+  margin-bottom: 0.4rem;
+}
+
+.idea-hook {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin: 0 0 0.6rem;
+  line-height: 1.45;
+}
+
+.idea-meta {
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+  margin: 0;
+  font-weight: 600;
+}

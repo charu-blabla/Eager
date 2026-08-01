@@ -61,4 +61,18 @@ A running record of daily progress for the AB Talks 60-Day Claude AI Challenge �
 
 ---
 
-## Day 5 — *(not yet started)*
+## Day 5 — Matching Engine & Idea List UI
+
+**Focus:** First user-facing functionality — the input form actually does something.
+
+- Built `js/matching.js`: filters the 40-idea bank by skill level, stack overlap, and time fit, with progressive fallback (loosens time first, then stack, then skill level last) when there are zero exact matches
+- Verified matching logic with 3 automated test scenarios (exact match, single-level fallback, double-cascade fallback) before touching any UI
+- Built the real Input Form (skill level, 12 stack checkboxes from `stacks.js`, hours/week + total weeks) and the Idea List screen (matched cards with domain tag, title, hook, time estimate), wired end-to-end in `main.js`
+- **Mid-day design detour:** user brought a full high-fidelity "Precision Workshop" mockup from Google Stitch requesting a visual overhaul. Flagged the difference between pure styling (safe) and real new scope (light theme swap, nav bar, expanded skill categories, viability scores, progress tracking, accounts) — all but light theme were declined to protect v1.0 scope
+- **Approved scope change:** switched from dark-first to light-first theme (PRD updated to reflect this — still a single, polished, non-toggleable theme, just a different palette than originally locked Day 2)
+- Applied a genuine visual polish pass: pill-shaped buttons, card-style toggle inputs with checkmark badges, refined shadows/spacing — all pure CSS/markup, zero functional changes
+- Zero API calls, zero cost — today's work is 100% client-side per the Day 2 architecture decision
+
+---
+
+## Day 6 — *(not yet started)*

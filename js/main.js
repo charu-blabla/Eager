@@ -1,15 +1,27 @@
 // js/main.js — Entry point. Owns top-level app state and screen routing.
-// Today (Day 3): just proves the page loads and JS is wired up correctly.
-// Day 5 onward: this file wires matching.js -> render.js -> ai.js -> favorites.js
-// together into the real screen flow described in UI-WIREFRAMES.md.
+// Day 5: wires InputForm -> matching.js -> IdeaList. Day 6/7 add the rest.
 
-const appEl = document.getElementById('app');
+import { ideas } from "../data/ideas.js";
+import { filterIdeas } from "./matching.js";
+import { renderInputForm, renderIdeaList } from "./render.js";
 
-function renderHelloWorld() {
-  appEl.innerHTML = `
-    <h1>Eager</h1>
-    <p>Foundation is running. Real screens start Day 5.</p>
-  `;
+const appEl = document.getElementById("app");
+
+let lastUserInputs = null;
+
+function showInputForm() {
+  renderInputForm(appEl, handleFormSubmit);
 }
 
-renderHelloWorld();
+function handleFormSubmit(userInputs) {
+  lastUserInputs = userInputs;
+  const { ideas: matched, note } = filterIdeas(userInputs, ideas);
+  renderIdeaList(appEl, matched, note, handleCardClick, showInputForm);
+}
+
+function handleCardClick(ideaId) {
+  // Day 6 wires this to AI personalization + the detail view.
+  console.log("Clicked idea:", ideaId, "with inputs:", lastUserInputs);
+}
+
+showInputForm();
