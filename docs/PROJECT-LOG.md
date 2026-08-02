@@ -75,4 +75,24 @@ A running record of daily progress for the AB Talks 60-Day Claude AI Challenge �
 
 ---
 
-## Day 6 — *(not yet started)*
+## Day 6 — AI Personalization Layer & Live Deployment
+
+**Focus:** Real AI integration, idea detail view, required footer, and — ahead of the original Day 9 schedule — full public deployment.
+
+- Built the real personalization function, idea detail screen (Features, Folder Structure, Learning Roadmap, Resume Description with Copy), loading state, and error/retry state
+- Added the required footer: "Built with Claude as part of the AB Talks 60-Day Claude AI Challenge"
+- **Provider switch:** the Anthropic Console account had $0 usable credit with no working free-tier path — switched the AI provider to Google Gemini's free tier (Google AI Studio, no card required) instead of introducing a paid service
+- **Real debugging marathon getting Gemini working** — six distinct issues, each fixed by reading the actual error instead of guessing:
+  1. Wrong auth method — Google's new `AQ.`-format keys need an `x-goog-api-key` header, not the old `?key=` query parameter
+  2. `gemini-2.5-flash` had just been retired for new users (404)
+  3. `gemini-flash-latest` resolved to a newer model with "thinking" on by default, causing slow responses and truncated JSON output
+  4. `gemini-2.0-flash` turned out to have zero free-tier quota on this account (429, `limit: 0`)
+  5. Landed on `gemini-3.5-flash-lite` — purpose-built for fast, low-latency, simple tasks like this one — with `thinkingLevel: "minimal"` set explicitly
+  6. Tuned the prompt itself to be more concise (shorter phrases, capped roadmap entries) to stay comfortably under Netlify's free-tier ~10s function timeout
+- **Deployed to production today** (moved up from Day 9, with explicit approval, since the live demo — minus Favorites/Share, which land Day 7 — was worth having early): connected the GitHub repo to Netlify, set `GEMINI_API_KEY` as a production environment variable, fixed a "private site" visibility setting, verified the live app in an incognito window
+- Live at **https://eager-capstone.netlify.app**
+- Updated all docs (`ARCHITECTURE.md`, `API.md`, `ENVIRONMENT.md`, `SETUP.md`, `IMPLEMENTATION-BLUEPRINT.md`) to reflect the Gemini switch and final model choice
+
+---
+
+## Day 7 — *(not yet started)*

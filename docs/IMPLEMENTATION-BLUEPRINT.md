@@ -127,14 +127,14 @@ Covered by `ARCHITECTURE.md`, `SCHEMA.md`, `API.md`, `UI-WIREFRAMES.md`, `PROJEC
 **📝 Step-by-Step Plan:**
 1. In `ai.js`, write `personalizeIdea(idea, userInputs)` that calls the app's own endpoint — `POST /api/personalize` — per `API.md`. Do **not** call the Gemini API directly from this file.
 2. **[Day 2 update]** In `netlify/functions/personalize.js`, replace the Day 3 stub with real logic: validate the request body per `API.md`, build a prompt combining the base idea with the user's skill level/stack/time, explicitly requesting structured sections (Must-Have/Stretch features, folder tree, week-by-week roadmap, resume line).
-3. **[Day 2 update, provider switched Day 6]** From the function, call the Gemini `generateContent` endpoint server-side (model `gemini-2.5-flash`, `maxOutputTokens` ~1200 to start) using the `GEMINI_API_KEY` environment variable — never hard-coded. Return JSON per `API.md`'s success shape, or the correct error status per its error table.
+3. **[Day 2 update, provider switched Day 6]** From the function, call the Gemini `generateContent` endpoint server-side (model `gemini-3.5-flash-lite`, `maxOutputTokens` ~1200 to start) using the `GEMINI_API_KEY` environment variable — never hard-coded. Return JSON per `API.md`'s success shape, or the correct error status per its error table.
 4. Wire the card click handler (Day 5) to trigger `personalizeIdea`, show a loading state while awaiting, then render the result.
 5. Build the IdeaDetail view: Feature List, Folder Structure (IBM Plex Mono), Learning Roadmap, Resume Description (copyable). Include a back/close action.
 6. Handle failure gracefully — friendly retry message, never a blank screen or raw error.
 
 **📂 Files/Folders:** `js/ai.js` (implemented), `netlify/functions/personalize.js` (full logic), `js/render.js` (IdeaDetail added), `js/main.js` (wire click → loading → ai.js → render), `style.css` (detail + loading styles).
 
-**🔗 Tools/Services:** Gemini API (`generateContent`, model `gemini-2.5-flash`, free tier via Google AI Studio) — called only from the serverless function.
+**🔗 Tools/Services:** Gemini API (`generateContent`, model `gemini-3.5-flash-lite`, free tier via Google AI Studio) — called only from the serverless function.
 
 **🧪 Testing:** Same idea across all 3 skill levels — confirm output meaningfully changes; slow/throttled network → loading state displays; deliberately break the API call → error state, not a crash; folder structure renders legibly in monospace.
 

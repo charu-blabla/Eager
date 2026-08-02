@@ -10,7 +10,7 @@ Status: Locked Day 2. Do not redesign without flagging a conflict with the PRD.
 | Backend | One serverless function only (`/netlify/functions/personalize.js`) | No accounts/auth needed (PRD §5.2); the only server-side need is hiding the Anthropic API key |
 | Database | None — static `data/ideas.js` + browser `localStorage` | Idea bank is a version-controlled data file (PRD §9); favorites persist client-side only (PRD §5.1) |
 | Authentication | None | Explicitly out of scope for v1.0 |
-| AI Model/API | Google Gemini API (`gemini-2.5-flash`, free tier via Google AI Studio), called from the serverless function, never from the browser. **Switched from Anthropic Day 6** — the Anthropic Console account had $0 credit with no working free-tier path; Gemini's free tier needs only a Google account, no card. | Keeps the API key private in a publicly deployed static site; stays on a genuinely free tier |
+| AI Model/API | Google Gemini API (`gemini-3.5-flash-lite`, free tier via Google AI Studio), called from the serverless function, never from the browser. **Switched from Anthropic Day 6** — the Anthropic Console account had $0 credit with no working free-tier path; Gemini's free tier needs only a Google account, no card. | Keeps the API key private in a publicly deployed static site; stays on a genuinely free tier |
 | Hosting | Netlify | Free tier; static hosting + serverless functions on one platform, git-linked auto-deploy |
 | Fonts | Google Fonts CDN — Hanken Grotesk (headings), Manrope (body), IBM Plex Mono (code/technical output) | Matches the "Precision Workshop" design system, zero install |
 | Version control | Git + GitHub | Already set up (`github.com/charu-blabla/Eager`) |
