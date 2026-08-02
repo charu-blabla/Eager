@@ -1,6 +1,5 @@
 // js/render.js — All DOM creation/update functions, one per screen/component.
-// Day 5: Skill Selection (input form) + Discover Project Ideas (idea list).
-// Day 6/7 add Project Roadmap & Tools and My Saved Roadmaps.
+// Day 6: adds Project Roadmap & Tools (idea detail), loading, and error states.
 
 import { STACK_OPTIONS } from "../data/stacks.js";
 
@@ -141,8 +140,94 @@ export function renderIdeaList(container, ideas, note, onCardClick, onEditInputs
   });
 }
 
-export function renderIdeaDetail(container, personalizedBrief) {
-  // Implemented Day 6.
+export function renderLoading(container, onCancel) {
+  container.innerHTML = `
+    <div class="screen loading-screen">
+      <div class="spinner" aria-hidden="true"></div>
+      <p class="loading-text">Personalizing your project brief…</p>
+      <button class="btn-link" id="cancel-loading-btn">&larr; Back to results</button>
+    </div>
+  `;
+  container.querySelector("#cancel-loading-btn").addEventListener("click", onCancel);
+}
+
+export function renderError(container, message, onRetry, onBack) {
+  container.innerHTML = `
+    <div class="screen error-screen">
+      <h2 class="app-title-sm">Something went wrong</h2>
+      <p class="error-text">${message}</p>
+      <div class="error-actions">
+        <button class="btn-primary" id="retry-btn">
+          <span>Try Again</span>
+        </button>
+        <button class="btn-link" id="back-from-error-btn">&larr; Back to results</button>
+      </div>
+    </div>
+  `;
+  container.querySelector("#retry-btn").addEventListener("click", onRetry);
+  container.querySelector("#back-from-error-btn").addEventListener("click", onBack);
+}
+
+export function renderIdeaDetail(container, idea, brief, onBack) {
+  const mustHave = (brief.features && brief.features.mustHave) || [];
+  const stretch = (brief.features && brief.features.stretch) || [];
+  const roadmap = brief.roadmap || [];
+  const folderStructure = brief.folderStructure || "";
+  const resumeDescription = brief.resumeDescription || "";
+
+  container.innerHTML = `
+    <div class="screen">
+      <button class="btn-link" id="back-to-list-btn">&larr; Back to results</button>
+
+      <span class="domain-tag domain-${idea.domain.toLowerCase()}">${DOMAIN_LABELS[idea.domain]}</span>
+      <h1 class="detail-title">${idea.title}</h1>
+      <p class="detail-hook">${idea.hook}</p>
+
+      <section class="detail-section">
+        <h3 class="detail-section-title">Features</h3>
+        <p class="detail-subheading">Must-Have</p>
+        <ul class="feature-list">
+          ${mustHave.map((f) => `<li>${f}</li>`).join("")}
+        </ul>
+        ${
+          stretch.length > 0
+            ? `<p class="detail-subheading">Stretch Goals</p>
+               <ul class="feature-list">${stretch.map((f) => `<li>${f}</li>`).join("")}</ul>`
+            : ""
+        }
+      </section>
+
+      <section class="detail-section">
+        <h3 class="detail-section-title">Folder Structure</h3>
+        <pre class="folder-structure">${folderStructure}</pre>
+      </section>
+
+      <section class="detail-section">
+        <h3 class="detail-section-title">Learning Roadmap</h3>
+        <ol class="roadmap-list">
+          ${roadmap.map((r) => `<li><strong>Week ${r.week}:</strong> ${r.focus}</li>`).join("")}
+        </ol>
+      </section>
+
+      <section class="detail-section">
+        <h3 class="detail-section-title">Resume Description</h3>
+        <div class="resume-box">
+          <p id="resume-text">${resumeDescription}</p>
+          <button class="btn-link" id="copy-resume-btn">Copy</button>
+        </div>
+      </section>
+    </div>
+  `;
+
+  container.querySelector("#back-to-list-btn").addEventListener("click", onBack);
+
+  const copyBtn = container.querySelector("#copy-resume-btn");
+  copyBtn.addEventListener("click", () => {
+    navigator.clipboard.writeText(resumeDescription).then(() => {
+      copyBtn.textContent = "Copied!";
+      setTimeout(() => (copyBtn.textContent = "Copy"), 1500);
+    });
+  });
 }
 
 export function renderFavorites(container, favorites) {

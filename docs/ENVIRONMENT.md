@@ -4,7 +4,7 @@
 
 | Variable | Where it's used | Where it's set | Committed to Git? |
 |---|---|---|---|
-| `ANTHROPIC_API_KEY` | `netlify/functions/personalize.js` — authorizes calls to the Anthropic API | Locally: `.env` file. In production: Netlify dashboard → Site settings → Environment variables (set on Day 9) | **Never** — excluded via `.gitignore` |
+| `GEMINI_API_KEY` | `netlify/functions/personalize.js` — authorizes calls to the Gemini API | Locally: `.env` file. In production: Netlify dashboard → Site settings → Environment variables (set on Day 9) | **Never** — excluded via `.gitignore` |
 
 ### `.env` vs `.env.example`
 
@@ -26,7 +26,7 @@
 |---|---|---|
 | GitHub | Source control, triggers Netlify deploys | Free |
 | Netlify | Hosting + serverless functions | Free tier |
-| Anthropic Console | API key issuance for the personalization layer | Free trial ($5 credit) |
+| Google AI Studio | API key issuance for the personalization layer (switched from Anthropic Day 6) | Free tier, no card |
 
 ## PowerShell Configuration (Windows-specific)
 
@@ -38,6 +38,6 @@ This does **not** disable script security generally — it still blocks unsigned
 
 ## Security Notes
 
-- The Anthropic API key is never called from the browser — only from the Netlify Function (`netlify/functions/personalize.js`), per the Day 2 architecture decision
+- The Gemini API key is never called from the browser — only from the Netlify Function (`netlify/functions/personalize.js`), per the Day 2 architecture decision (provider switched from Anthropic to Gemini on Day 6 due to a $0 credit balance)
 - If a key is ever accidentally exposed (e.g., pasted somewhere outside `.env`), revoke it immediately at console.anthropic.com → API Keys, and generate a new one
 - `.gitignore` covers `.env` and all `.env.*` variants, with an explicit exception for `.env.example`

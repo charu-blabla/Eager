@@ -333,3 +333,147 @@ h1, h2, h3 {
   margin: 0;
   font-weight: 600;
 }
+
+/* ===== Day 6: Detail, Loading, Error, Footer ===== */
+
+.loading-screen,
+.error-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: 3rem;
+  gap: 1rem;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-violet);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.error-text {
+  color: var(--color-error);
+  font-size: 0.95rem;
+  max-width: 420px;
+}
+
+.error-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 280px;
+}
+
+.detail-title {
+  font-size: 1.8rem;
+  margin: 0.75rem 0 0.4rem;
+}
+
+.detail-hook {
+  color: var(--color-text-muted);
+  margin: 0 0 1.75rem;
+  font-size: 1rem;
+}
+
+.detail-section {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.1rem;
+  box-shadow: var(--shadow-card);
+}
+
+.detail-section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.9rem;
+  color: var(--color-violet-dark);
+}
+
+.detail-subheading {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0.9rem 0 0.4rem;
+}
+
+.detail-subheading:first-of-type {
+  margin-top: 0;
+}
+
+.feature-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--color-text);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.folder-structure {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 1rem;
+  overflow-x: auto;
+  white-space: pre;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.roadmap-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.resume-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  background: var(--color-violet-tint);
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+}
+
+.resume-box p {
+  margin: 0;
+  font-size: 0.92rem;
+  font-style: italic;
+  color: var(--color-violet-dark);
+}
+
+.resume-box .btn-link {
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+.site-footer {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+  padding: 1.5rem 1rem 2rem;
+  border-top: 1px solid var(--color-border);
+  margin-top: 1rem;
+}

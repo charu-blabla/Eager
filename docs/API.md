@@ -18,7 +18,7 @@ Takes one base idea plus the user's inputs and returns an AI-personalized projec
 
 ### Authentication
 
-None. This is a public, unauthenticated endpoint by design (no accounts in v1.0). The Anthropic API key lives server-side as a Netlify environment variable and is never exposed to the client.
+None. This is a public, unauthenticated endpoint by design (no accounts in v1.0). The Gemini API key lives server-side as a Netlify environment variable and is never exposed to the client.
 
 > Note for Day 8 (testing): because this endpoint is public and calls a paid-per-token API, basic abuse protection is worth a light touch — e.g. a simple per-IP request cap using Netlify's built-in rate limiting, or a minimum client-side debounce so double-clicks don't double-charge. Not a v1.0 blocker, but flagged here so it isn't forgotten.
 
@@ -59,7 +59,7 @@ Content-Type: application/json
 | `userInputs.hoursPerWeek` | Required, positive number |
 | `userInputs.totalWeeks` | Required, positive number |
 
-Any missing/invalid field → `400`, request is rejected before calling the Anthropic API (protects API budget from malformed calls).
+Any missing/invalid field → `400`, request is rejected before calling the Gemini API (protects API budget from malformed calls).
 
 ### Success Response — `200 OK`
 
@@ -84,8 +84,8 @@ Any missing/invalid field → `400`, request is rejected before calling the Anth
 |---|---|---|
 | `400` | Missing/invalid required field | `{ "error": "validation_error", "message": "<field>-specific message" }` |
 | `405` | Wrong HTTP method (not POST) | `{ "error": "method_not_allowed" }` |
-| `502` | Anthropic API returned an error | `{ "error": "upstream_error", "message": "Personalization is temporarily unavailable. Try again." }` |
-| `504` | Anthropic API call timed out | `{ "error": "timeout", "message": "That took too long — try again." }` |
+| `502` | Gemini API returned an error | `{ "error": "upstream_error", "message": "Personalization is temporarily unavailable. Try again." }` |
+| `504` | Gemini API call timed out | `{ "error": "timeout", "message": "That took too long — try again." }` |
 | `500` | Unexpected server error | `{ "error": "internal_error" }` |
 
 Every error case maps to the friendly retry UI defined in the Blueprint's Day 6 plan — the client never shows a raw error object.

@@ -1,13 +1,22 @@
 // js/main.js — Entry point. Owns top-level app state and screen routing.
-// Day 5: wires InputForm -> matching.js -> IdeaList. Day 6/7 add the rest.
+// Day 6: wires idea card clicks -> AI personalization -> detail view.
 
 import { ideas } from "../data/ideas.js";
 import { filterIdeas } from "./matching.js";
-import { renderInputForm, renderIdeaList } from "./render.js";
+import { personalizeIdea } from "./ai.js";
+import {
+  renderInputForm,
+  renderIdeaList,
+  renderIdeaDetail,
+  renderLoading,
+  renderError,
+} from "./render.js";
 
 const appEl = document.getElementById("app");
 
 let lastUserInputs = null;
+let lastMatchedIdeas = [];
+let lastNote = null;
 
 function showInputForm() {
   renderInputForm(appEl, handleFormSubmit);
@@ -16,12 +25,32 @@ function showInputForm() {
 function handleFormSubmit(userInputs) {
   lastUserInputs = userInputs;
   const { ideas: matched, note } = filterIdeas(userInputs, ideas);
-  renderIdeaList(appEl, matched, note, handleCardClick, showInputForm);
+  lastMatchedIdeas = matched;
+  lastNote = note;
+  showIdeaList();
 }
 
-function handleCardClick(ideaId) {
-  // Day 6 wires this to AI personalization + the detail view.
-  console.log("Clicked idea:", ideaId, "with inputs:", lastUserInputs);
+function showIdeaList() {
+  renderIdeaList(appEl, lastMatchedIdeas, lastNote, handleCardClick, showInputForm);
+}
+
+async function handleCardClick(ideaId) {
+  const idea = ideas.find((i) => i.id === ideaId);
+  if (!idea) return;
+
+  renderLoading(appEl, showIdeaList);
+
+  try {
+    const brief = await personalizeIdea(idea, lastUserInputs);
+    renderIdeaDetail(appEl, idea, brief, showIdeaList);
+  } catch (err) {
+    renderError(
+      appEl,
+      err.message || "Something went wrong.",
+      () => handleCardClick(ideaId),
+      showIdeaList
+    );
+  }
 }
 
 showInputForm();

@@ -11,7 +11,8 @@ How to get Eager running on a fresh machine, start to finish. Written from Day 3
 | Netlify CLI | Latest | Runs the static site + serverless function together locally (`netlify dev`), simulating production |
 | Git | Any recent version | Version control, already required from Day 1 |
 | A Netlify account | Free tier | Hosting target (connected Day 9) |
-| An Anthropic API key | Free tier ($5 trial credit, no card required) | Powers the AI personalization layer |
+| An Anthropic API key | ~~Free tier ($5 trial)~~ **No longer used — see Day 6 note below** | Originally planned for the AI personalization layer |
+| A Google Gemini API key | Free tier (Google AI Studio, no card required) | **Currently powers the AI personalization layer (switched Day 6)** |
 
 ## 1. Install Node.js
 
@@ -35,12 +36,13 @@ npm install -g netlify-cli
 ```
 Verify: `netlify --version`
 
-## 3. Get an Anthropic API Key
+## 3. Get a Gemini API Key
 
-1. Sign up / log in at [console.anthropic.com](https://console.anthropic.com)
-2. Complete phone verification to claim the free $5 trial credit (no card required for this)
-3. Go to **API Keys → Create Key**, name it, set an expiration, click **Add**
-4. Copy the key immediately — it's shown once
+**Note (Day 6):** the project originally planned to use the Anthropic API here, but the Anthropic Console account hit a $0 credit balance with no working free-tier path. Switched to Google Gemini's free tier instead — same architecture (still called only from the serverless function), different provider.
+
+1. Sign in at [aistudio.google.com](https://aistudio.google.com) with a Google account
+2. Click **"Get API key"** → **"Create API key"**
+3. Copy the key that appears (starts with `AIza...`)
 
 > **Security note:** never paste an API key into chat apps, screenshots you'll share, or anywhere except a local `.env` file or the Netlify dashboard's environment variables screen.
 
@@ -53,7 +55,7 @@ cd Eager
 
 Create your local `.env` file (copy the format from `.env.example`, which is committed and safe — it holds no real key):
 ```
-ANTHROPIC_API_KEY=sk-ant-your-actual-key-here
+GEMINI_API_KEY=your-gemini-key-here
 ```
 
 Confirm `.env` is protected — run `cat .gitignore` and confirm `.env` appears in the dotenv exclusion block.

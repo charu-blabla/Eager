@@ -8,7 +8,7 @@ Each remaining day of the capstone begins as a fresh AI conversation. Paste that
 
 **Locked product decisions (do not re-litigate):** no login/accounts for v1 (browser-based favorites only), hybrid idea generation (curated 40-idea bank + AI personalization layer), 3 skill levels, multi-select checkbox tech stack input, hours/week + total weeks for time input, all-matching-ideas-as-a-list flow, simple share-link only (no comments/likes), no payments, no multi-language, no native mobile, no admin panel for v1.
 
-**Locked technical decisions (Day 2):** Vanilla HTML/CSS/JS, no build step. No database — static `data/ideas.js` + browser `localStorage`. No authentication. Anthropic API (`claude-sonnet-4-6`) called only from a Netlify serverless function, never the browser. Hosting: Netlify. Fonts: Space Grotesk / Inter / IBM Plex Mono via Google Fonts CDN. Full detail in `ARCHITECTURE.md`, `SCHEMA.md`, `API.md`, `UI-WIREFRAMES.md`, `PROJECT-STRUCTURE.md`.
+**Locked technical decisions (Day 2):** Vanilla HTML/CSS/JS, no build step. No database — static `data/ideas.js` + browser `localStorage`. No authentication. Gemini API (`claude-sonnet-5`) called only from a Netlify serverless function, never the browser. Hosting: Netlify. Fonts: Space Grotesk / Inter / IBM Plex Mono via Google Fonts CDN. Full detail in `ARCHITECTURE.md`, `SCHEMA.md`, `API.md`, `UI-WIREFRAMES.md`, `PROJECT-STRUCTURE.md`.
 
 ---
 
@@ -125,20 +125,20 @@ Covered by `ARCHITECTURE.md`, `SCHEMA.md`, `API.md`, `UI-WIREFRAMES.md`, `PROJEC
 **🛠 Features to Build:** AI personalization call in `ai.js`; Expanded Idea Detail view (FR-9): tailored feature list, folder structure, learning roadmap, resume description; loading state (FR-10).
 
 **📝 Step-by-Step Plan:**
-1. In `ai.js`, write `personalizeIdea(idea, userInputs)` that calls the app's own endpoint — `POST /api/personalize` — per `API.md`. Do **not** call the Anthropic API directly from this file.
+1. In `ai.js`, write `personalizeIdea(idea, userInputs)` that calls the app's own endpoint — `POST /api/personalize` — per `API.md`. Do **not** call the Gemini API directly from this file.
 2. **[Day 2 update]** In `netlify/functions/personalize.js`, replace the Day 3 stub with real logic: validate the request body per `API.md`, build a prompt combining the base idea with the user's skill level/stack/time, explicitly requesting structured sections (Must-Have/Stretch features, folder tree, week-by-week roadmap, resume line).
-3. **[Day 2 update]** From the function, call the Anthropic messages endpoint server-side (model `claude-sonnet-4-6`, `max_tokens` ~1200–1500 to start) using the `ANTHROPIC_API_KEY` environment variable — never hard-coded. Return JSON per `API.md`'s success shape, or the correct error status per its error table.
+3. **[Day 2 update, provider switched Day 6]** From the function, call the Gemini `generateContent` endpoint server-side (model `gemini-2.5-flash`, `maxOutputTokens` ~1200 to start) using the `GEMINI_API_KEY` environment variable — never hard-coded. Return JSON per `API.md`'s success shape, or the correct error status per its error table.
 4. Wire the card click handler (Day 5) to trigger `personalizeIdea`, show a loading state while awaiting, then render the result.
 5. Build the IdeaDetail view: Feature List, Folder Structure (IBM Plex Mono), Learning Roadmap, Resume Description (copyable). Include a back/close action.
 6. Handle failure gracefully — friendly retry message, never a blank screen or raw error.
 
 **📂 Files/Folders:** `js/ai.js` (implemented), `netlify/functions/personalize.js` (full logic), `js/render.js` (IdeaDetail added), `js/main.js` (wire click → loading → ai.js → render), `style.css` (detail + loading styles).
 
-**🔗 Tools/Services:** Anthropic API (`/v1/messages`, model `claude-sonnet-4-6`) — called only from the serverless function.
+**🔗 Tools/Services:** Gemini API (`generateContent`, model `gemini-2.5-flash`, free tier via Google AI Studio) — called only from the serverless function.
 
 **🧪 Testing:** Same idea across all 3 skill levels — confirm output meaningfully changes; slow/throttled network → loading state displays; deliberately break the API call → error state, not a crash; folder structure renders legibly in monospace.
 
-**🐞 Common Issues:** Inconsistent output format → tighten prompt with explicit section delimiters. Slow responses → reduce `max_tokens` or trim prompt context. Local key issues → set `ANTHROPIC_API_KEY` via Netlify CLI dev environment, never commit it.
+**🐞 Common Issues:** Inconsistent output format → tighten prompt with explicit section delimiters. Slow responses → reduce `max_tokens` or trim prompt context. Local key issues → set `GEMINI_API_KEY` via Netlify CLI dev environment, never commit it.
 
 **✅ End-of-Day Checklist:** Clicking an idea triggers a real AI call with a loading state; detail view renders all 4 pieces correctly; tested across 2+ skill levels with visibly different output; error state handled gracefully.
 
@@ -221,7 +221,7 @@ Covered by `ARCHITECTURE.md`, `SCHEMA.md`, `API.md`, `UI-WIREFRAMES.md`, `PROJEC
 **🛠 Features to Build:** None new — deployment configuration only.
 
 **📝 Step-by-Step Plan:**
-1. **[Day 2 update]** The API-key proxy is already built and working (Day 3/6) — today is deployment config only. Confirm `ANTHROPIC_API_KEY` is set in the Netlify dashboard under Site settings → Environment variables for the **production** site (a local `.env` value does not carry over automatically).
+1. **[Day 2 update]** The API-key proxy is already built and working (Day 3/6) — today is deployment config only. Confirm `GEMINI_API_KEY` is set in the Netlify dashboard under Site settings → Environment variables for the **production** site (a local `.env` value does not carry over automatically).
 2. Push the final, tested code to GitHub (if not already continuously pushed).
 3. In Netlify: **Add new site → Import an existing project → GitHub → select Eager**, confirm the publish directory and functions directory are detected correctly from `netlify.toml`.
 4. Trigger the deploy and get the live URL.
