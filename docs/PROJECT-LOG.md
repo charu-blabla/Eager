@@ -95,4 +95,18 @@ A running record of daily progress for the AB Talks 60-Day Claude AI Challenge �
 
 ---
 
-## Day 7 — *(not yet started)*
+## Day 7 — Favorites, Share & UX Polish
+
+**Focus:** Completing the last two v1.0 features (Favorites, Share) plus a full design/UX refinement pass.
+
+- Built `js/favorites.js`: real `localStorage` logic (get/add/remove/isFavorited), with an upsert pattern so a favorite's cached brief can be upgraded from a placeholder to a real AI-generated one later
+- Star button added to every idea card and the detail screen — instant toggle, persists across refresh
+- **Favorites view** built: shows saved ideas with cached briefs, empty state when nothing's saved, reachable from a new persistent top nav bar on every screen
+- **Share** built: copies a `?idea=<id>` link to the clipboard with a toast confirmation; opening that link auto-loads the idea, using cached data when available or personalizing fresh otherwise
+- **Real bug caught during testing:** favoriting an idea straight from the list (before it had ever been personalized) saved only a placeholder — opening it from Favorites showed empty Features/Folder Structure/Roadmap sections. Fixed by having Favorites auto-generate and cache the real brief the first time an incomplete favorite is opened, and by making `addFavorite` upsert instead of skip duplicates
+- **Design/UX polish pass** (senior-review-style, bundled into the same file changes): persistent top nav across all screens, color-coded domain tags per category, empty states, toast notifications, visible keyboard focus rings, ARIA labels/roles throughout, small responsive fixes for narrow screens
+- Redeployed to the live site — all v1.0 features (FR-1 through FR-13) are now functionally complete and live
+
+---
+
+## Day 8 — *(not yet started)*
