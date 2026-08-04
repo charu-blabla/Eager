@@ -1,61 +1,77 @@
-// netlify/functions/personalize.js
-// The ONLY server-side code in this project. Holds GEMINI_API_KEY safely
-// and proxies personalization requests, per ARCHITECTURE.md and API.md.
-// Day 6: switched from Anthropic to Google Gemini's free API tier — the
-// Anthropic Console account had $0 credit with no free-tier path available,
-// while Gemini's free tier (Google AI Studio) needs only a Google account,
-// no card, ~1,500 requests/day. This does NOT change the app's request/response
-// contract (still POST /api/personalize -> same JSON shape per API.md) and
-// does NOT change what "Built with Claude" in the footer refers to — that
-// describes how the whole app was built during this challenge, not which
-// vendor powers this one backend call. Uses gemini-flash-latest (an alias
-// Google keeps pointed at the current default Flash model) instead of a
-// pinned version, after gemini-2.5-flash was retired for new users.
+// netlify/functions/personalize.js (ESM — see package.json "type": "module")
+// The ONLY server-side code in this project. Holds GEMINI_API_KEY safely and
+// proxies personalization requests, per ARCHITECTURE.md and API.md.
+//
+// Day 8 security hardening: this is a PUBLIC, unauthenticated endpoint.
+// Previously it trusted whatever "idea" content the client sent (title, hook,
+// description) — meaning anyone could POST arbitrary text directly to this
+// endpoint and use the free Gemini quota as an open text-generation proxy,
+// bypassing the actual 40-idea bank entirely. Fixed by looking up the idea by
+// ID from our own trusted data/ideas.js instead of trusting client-submitted
+// content, validating stack names against the known list, and bounding the
+// numeric inputs (the HTML min/max attributes only protect the browser form,
+// not someone hitting this endpoint directly).
+
+import { ideas } from "../../data/ideas.js";
+import { STACK_OPTIONS } from "../../data/stacks.js";
 
 const GEMINI_URL =
   "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent";
-// Using the Flash-Lite model specifically: built for low-latency, simple
-// tasks like structured extraction (exactly what this function does), with
-// thinking_level defaulting to "minimal" — explicitly set below for clarity
-// and to stay fast even if that default changes again later.
 // Netlify's free-tier synchronous functions have a hard ~10s execution limit.
-// We abort at 9.5s so we can return a clean 504 instead of Netlify force-killing the function.
 const TIMEOUT_MS = 9500;
 
-function validateRequest(idea, userInputs) {
+const ideasById = Object.fromEntries(ideas.map((i) => [i.id, i]));
+const VALID_SKILL_LEVELS = ["Beginner", "Intermediate", "Advanced"];
+const MAX_HOURS_PER_WEEK = 80;
+const MAX_TOTAL_WEEKS = 52;
+
+function validateAndResolveRequest(payload) {
   const errors = [];
+  const { idea: clientIdea, userInputs } = payload || {};
 
-  if (!idea || typeof idea.id !== "string" || !idea.id) {
-    errors.push("idea.id is required");
-  }
-  if (!idea || typeof idea.title !== "string" || !idea.title) {
-    errors.push("idea.title is required");
-  }
-  if (!idea || typeof idea.hook !== "string" || !idea.hook) {
-    errors.push("idea.hook is required");
-  }
-  if (!idea || typeof idea.baseDescription !== "string" || !idea.baseDescription) {
-    errors.push("idea.baseDescription is required");
-  }
-  if (!idea || !Array.isArray(idea.coreConcepts) || idea.coreConcepts.length === 0) {
-    errors.push("idea.coreConcepts must be a non-empty array");
+  // Look up the REAL idea server-side — never trust client-submitted idea content.
+  const ideaId = clientIdea && typeof clientIdea.id === "string" ? clientIdea.id : null;
+  const idea = ideaId ? ideasById[ideaId] : null;
+  if (!idea) {
+    errors.push("idea.id must reference a known idea");
   }
 
-  const validSkillLevels = ["Beginner", "Intermediate", "Advanced"];
-  if (!userInputs || !validSkillLevels.includes(userInputs.skillLevel)) {
+  if (!userInputs || !VALID_SKILL_LEVELS.includes(userInputs.skillLevel)) {
     errors.push("userInputs.skillLevel must be Beginner, Intermediate, or Advanced");
   }
+
+  let validStacks = [];
   if (!userInputs || !Array.isArray(userInputs.selectedStacks) || userInputs.selectedStacks.length === 0) {
     errors.push("userInputs.selectedStacks must be a non-empty array");
-  }
-  if (!userInputs || typeof userInputs.hoursPerWeek !== "number" || userInputs.hoursPerWeek <= 0) {
-    errors.push("userInputs.hoursPerWeek must be a positive number");
-  }
-  if (!userInputs || typeof userInputs.totalWeeks !== "number" || userInputs.totalWeeks <= 0) {
-    errors.push("userInputs.totalWeeks must be a positive number");
+  } else {
+    validStacks = userInputs.selectedStacks.filter((s) => STACK_OPTIONS.includes(s));
+    if (validStacks.length === 0) {
+      errors.push("userInputs.selectedStacks must contain at least one recognized stack");
+    }
   }
 
-  return errors;
+  const hoursPerWeek = userInputs && Number(userInputs.hoursPerWeek);
+  if (!hoursPerWeek || hoursPerWeek <= 0 || hoursPerWeek > MAX_HOURS_PER_WEEK) {
+    errors.push(`userInputs.hoursPerWeek must be a number between 1 and ${MAX_HOURS_PER_WEEK}`);
+  }
+
+  const totalWeeks = userInputs && Number(userInputs.totalWeeks);
+  if (!totalWeeks || totalWeeks <= 0 || totalWeeks > MAX_TOTAL_WEEKS) {
+    errors.push(`userInputs.totalWeeks must be a number between 1 and ${MAX_TOTAL_WEEKS}`);
+  }
+
+  if (errors.length > 0) return { errors };
+
+  return {
+    errors: [],
+    idea, // the trusted, server-side version
+    userInputs: {
+      skillLevel: userInputs.skillLevel,
+      selectedStacks: validStacks,
+      hoursPerWeek,
+      totalWeeks,
+    },
+  };
 }
 
 function buildPrompt(idea, userInputs) {
@@ -98,7 +114,7 @@ Rules (follow exactly, keep it short):
 - No extra commentary, no explanations — JSON only.`;
 }
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   if (event.httpMethod !== "POST") {
     return {
       statusCode: 405,
@@ -118,8 +134,7 @@ exports.handler = async (event) => {
     };
   }
 
-  const { idea, userInputs } = payload;
-  const errors = validateRequest(idea, userInputs);
+  const { errors, idea, userInputs } = validateAndResolveRequest(payload);
   if (errors.length > 0) {
     return {
       statusCode: 400,

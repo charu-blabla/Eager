@@ -3,6 +3,7 @@
   --color-violet: #7C3AED;
   --color-violet-dark: #5B21B6;
   --color-violet-tint: #F3EEFE;
+  --color-gold: #D97706;
   --color-bg: #F8FAFC;
   --color-surface: #FFFFFF;
   --color-text: #0F172A;
@@ -697,4 +698,11 @@ h1, h2, h3 {
   .time-row {
     flex-direction: column;
   }
+}
+
+/* ===== Day 8: Disabled state for buttons ===== */
+.btn-link:disabled,
+.icon-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

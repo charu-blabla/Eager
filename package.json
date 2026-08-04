@@ -2,6 +2,7 @@
   "name": "eager",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "description": "AI-personalized project idea generator for students — AB Talks 60-Day Claude AI Challenge capstone.",
   "scripts": {
     "dev": "netlify dev"

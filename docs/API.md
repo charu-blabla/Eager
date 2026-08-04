@@ -49,17 +49,17 @@ Content-Type: application/json
 
 ### Validation Rules
 
+**[Updated Day 8 — security hardening]** The server no longer trusts client-submitted idea content. It looks up the real idea server-side using only `idea.id`, ignoring any other fields sent in the `idea` object (title, hook, etc. are accepted but discarded). This closes an abuse path where the public endpoint could otherwise be used as an unrestricted text-generation proxy with arbitrary prompt content.
+
 | Field | Rule |
 |---|---|
-| `idea.id`, `idea.title` | Required, non-empty strings |
-| `idea.hook`, `idea.baseDescription` | Required, non-empty strings |
-| `idea.coreConcepts` | Required, array with at least 1 entry |
+| `idea.id` | Required. Must match a real id from `data/ideas.js` — request is rejected with `400` if not found |
 | `userInputs.skillLevel` | Required, must be exactly `"Beginner"`, `"Intermediate"`, or `"Advanced"` |
-| `userInputs.selectedStacks` | Required, array with at least 1 entry (mirrors FR-4) |
-| `userInputs.hoursPerWeek` | Required, positive number |
-| `userInputs.totalWeeks` | Required, positive number |
+| `userInputs.selectedStacks` | Required, array with at least 1 entry. Entries not found in `data/stacks.js` are silently filtered out; request is rejected if none remain valid |
+| `userInputs.hoursPerWeek` | Required, number between 1 and 80 (bounded server-side, not just via HTML `min`/`max`) |
+| `userInputs.totalWeeks` | Required, number between 1 and 52 (bounded server-side, not just via HTML `min`/`max`) |
 
-Any missing/invalid field → `400`, request is rejected before calling the Gemini API (protects API budget from malformed calls).
+Any missing/invalid field → `400`, request is rejected before calling the Gemini API (protects API budget from malformed or abusive calls).
 
 ### Success Response — `200 OK`
 

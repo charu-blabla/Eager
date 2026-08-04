@@ -7,7 +7,7 @@ Status: Locked Day 2. Do not redesign without flagging a conflict with the PRD.
 | Layer | Choice | Why |
 |---|---|---|
 | Frontend | Vanilla HTML/CSS/JS, ES modules, no build step | Simplest reliable path for a first dynamic app; no login/complex nested state to justify a framework |
-| Backend | One serverless function only (`/netlify/functions/personalize.js`) | No accounts/auth needed (PRD §5.2); the only server-side need is hiding the Anthropic API key |
+| Backend | One serverless function only (`/netlify/functions/personalize.js`), ES modules (`package.json` `"type": "module"`, changed Day 8) | No accounts/auth needed (PRD §5.2); the only server-side need is hiding the Gemini API key. **Day 8:** the function now imports `data/ideas.js`/`data/stacks.js` directly and validates all input server-side (see API.md) — the public endpoint no longer trusts client-submitted idea content. |
 | Database | None — static `data/ideas.js` + browser `localStorage` | Idea bank is a version-controlled data file (PRD §9); favorites persist client-side only (PRD §5.1) |
 | Authentication | None | Explicitly out of scope for v1.0 |
 | AI Model/API | Google Gemini API (`gemini-3.5-flash-lite`, free tier via Google AI Studio), called from the serverless function, never from the browser. **Switched from Anthropic Day 6** — the Anthropic Console account had $0 credit with no working free-tier path; Gemini's free tier needs only a Google account, no card. | Keeps the API key private in a publicly deployed static site; stays on a genuinely free tier |

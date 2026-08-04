@@ -1,6 +1,6 @@
 // js/main.js — Entry point. Owns top-level app state and screen routing.
-// Day 7: adds Favorites view, Share (deep-link via URL param), and wires the
-// star toggle used from both the idea list and the detail view.
+// Day 8: guards against double-click races on personalization requests,
+// otherwise unchanged from Day 7's wiring.
 
 import { ideas } from "../data/ideas.js";
 import { filterIdeas } from "./matching.js";
@@ -21,6 +21,7 @@ const ideasById = Object.fromEntries(ideas.map((i) => [i.id, i]));
 let lastUserInputs = null;
 let lastMatchedIdeas = [];
 let lastNote = null;
+let isPersonalizing = false; // guards against double-click firing concurrent requests
 
 function showInputForm() {
   renderInputForm(appEl, handleFormSubmit, showFavorites);
@@ -49,8 +50,6 @@ function handleOpenFavorite(ideaId) {
   const idea = ideasById[ideaId];
   if (!fav || !idea) return;
 
-  // If this was starred straight from the list (before personalizing), the
-  // cached snapshot only has a placeholder — generate the real brief now.
   const hasRealBrief = fav.personalizedSnapshot && fav.personalizedSnapshot.features;
   if (hasRealBrief) {
     renderIdeaDetail(appEl, idea, fav.personalizedSnapshot, showFavorites, showFavorites, handleToggleStar, handleShare);
@@ -61,6 +60,9 @@ function handleOpenFavorite(ideaId) {
 }
 
 async function generateAndCacheFavoriteBrief(idea) {
+  if (isPersonalizing) return;
+  isPersonalizing = true;
+
   const inputsForPersonalization = lastUserInputs || {
     skillLevel: idea.difficulty,
     selectedStacks: idea.suggestedStacks,
@@ -71,10 +73,12 @@ async function generateAndCacheFavoriteBrief(idea) {
   renderLoading(appEl, showFavorites);
   try {
     const brief = await personalizeIdea(idea, inputsForPersonalization);
-    addFavorite(idea.id, brief); // overwrites the placeholder with the real brief
+    addFavorite(idea.id, brief);
     renderIdeaDetail(appEl, idea, brief, showFavorites, showFavorites, handleToggleStar, handleShare);
   } catch (err) {
     renderError(appEl, err.message || "Something went wrong.", () => generateAndCacheFavoriteBrief(idea), showFavorites);
+  } finally {
+    isPersonalizing = false;
   }
 }
 
@@ -92,33 +96,37 @@ function handleToggleStar(ideaId, btnEl, context) {
     if (snapshot) {
       addFavorite(ideaId, snapshot);
     } else {
-      // Favorited straight from the list, before personalizing — store idea
-      // basics only; opening it later from Favorites will show what we have.
       addFavorite(ideaId, { resumeDescription: idea ? idea.hook : "" });
     }
   }
 
-  // Re-render the current screen's star button state without a full reload.
   if (btnEl) {
     const nowFav = isFavorited(ideaId);
     btnEl.classList.toggle("favorited", nowFav);
     btnEl.setAttribute("aria-pressed", String(nowFav));
-    btnEl.querySelector("span") &&
-      (btnEl.querySelector("span").innerHTML = nowFav ? "&#9733;" : "&#9734;");
+    const span = btnEl.querySelector("span");
+    if (span) span.innerHTML = nowFav ? "&#9733;" : "&#9734;";
   }
 }
 
 async function handleCardClick(ideaId) {
+  if (isPersonalizing) return; // ignore rapid double-clicks on different/same cards
   const idea = ideasById[ideaId];
   if (!idea) return;
 
+  isPersonalizing = true;
   renderLoading(appEl, showIdeaList);
 
   try {
     const brief = await personalizeIdea(idea, lastUserInputs);
     renderIdeaDetail(appEl, idea, brief, showIdeaList, showFavorites, handleToggleStar, handleShare);
   } catch (err) {
-    renderError(appEl, err.message || "Something went wrong.", () => handleCardClick(ideaId), showIdeaList);
+    renderError(appEl, err.message || "Something went wrong.", () => {
+      isPersonalizing = false;
+      handleCardClick(ideaId);
+    }, showIdeaList);
+  } finally {
+    isPersonalizing = false;
   }
 }
 
@@ -141,7 +149,6 @@ async function tryOpenSharedIdea() {
   const idea = ideasById[sharedIdeaId];
   if (!idea) return false;
 
-  // If it's already favorited, we have a cached brief — use it instantly.
   const favorites = getFavorites();
   const fav = favorites.find((f) => f.ideaId === sharedIdeaId);
   if (fav && fav.personalizedSnapshot && fav.personalizedSnapshot.features) {
@@ -149,20 +156,24 @@ async function tryOpenSharedIdea() {
     return true;
   }
 
-  // Otherwise personalize it fresh, using neutral default inputs since the
-  // sharer's original inputs aren't part of the link (kept simple for v1.0).
   lastUserInputs = {
     skillLevel: idea.difficulty,
     selectedStacks: idea.suggestedStacks,
     hoursPerWeek: 5,
     totalWeeks: idea.estimatedWeeks,
   };
+  isPersonalizing = true;
   renderLoading(appEl, showInputForm);
   try {
     const brief = await personalizeIdea(idea, lastUserInputs);
     renderIdeaDetail(appEl, idea, brief, showInputForm, showFavorites, handleToggleStar, handleShare);
   } catch (err) {
-    renderError(appEl, err.message || "Something went wrong.", () => tryOpenSharedIdea(), showInputForm);
+    renderError(appEl, err.message || "Something went wrong.", () => {
+      isPersonalizing = false;
+      tryOpenSharedIdea();
+    }, showInputForm);
+  } finally {
+    isPersonalizing = false;
   }
   return true;
 }

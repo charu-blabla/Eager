@@ -109,4 +109,21 @@ A running record of daily progress for the AB Talks 60-Day Claude AI Challenge �
 
 ---
 
-## Day 8 — *(not yet started)*
+## Day 8 — Testing, Security Hardening & Production Readiness
+
+**Focus:** Senior-level QA pass — security, XSS, edge cases, accessibility, performance. No new features.
+
+- **Security (High severity, fixed):** the public `/api/personalize` endpoint trusted whatever idea content the client sent, meaning anyone could bypass the real idea bank entirely and use the free Gemini quota as an open text-generation proxy. Fixed by having the server look up ideas by ID from its own trusted copy of `data/ideas.js`, ignoring all other client-submitted idea fields
+- Server-side bounds added for `hoursPerWeek`/`totalWeeks` and stack-name validation — previously only enforced via HTML attributes, meaningless to anyone calling the endpoint directly
+- Converted the Netlify function to ES modules (`package.json` `"type": "module"`) so it could cleanly import the real `data/ideas.js`/`stacks.js` instead of duplicating data
+- **XSS defense:** all dynamic text — including AI-generated content, which isn't 100% predictable — now escaped before insertion into the DOM
+- **Race condition fix:** rapid double-clicking an idea card previously could fire two concurrent AI requests; now guarded
+- Friendlier offline/network error messaging, distinct from generic server errors
+- Full manual form validation (previously only the stack checkbox was validated; skill level and time bounds now show their own clear errors too)
+- Small production-readiness cleanup: defined the previously-undefined `--color-gold` CSS variable, added a favicon (was causing a silent 404), added the missing `fonts.gstatic.com` preconnect
+- Full end-to-end walkthrough completed and documented in the new `TESTING.md`
+- Redeployed live with all fixes verified on the production URL
+
+---
+
+## Day 9 — *(not yet started)*
