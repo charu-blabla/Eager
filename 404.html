@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Not Found — Eager</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .not-found-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 80vh;
+      padding: 2rem 1.25rem;
+    }
+    .not-found-code {
+      font-family: var(--font-heading);
+      font-size: 5rem;
+      font-weight: 700;
+      color: var(--color-violet);
+      margin: 0;
+      line-height: 1;
+    }
+    .not-found-text {
+      color: var(--color-text-muted);
+      margin: 0.75rem 0 2rem;
+      font-size: 1.05rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="not-found-screen">
+    <p class="not-found-code">404</p>
+    <h1 class="app-title-sm">This page doesn't exist</h1>
+    <p class="not-found-text">The link might be broken, or the page may have moved.</p>
+    <a href="/" class="btn-primary" style="text-decoration: none; display: inline-flex; width: auto; padding-left: 2rem; padding-right: 2rem;">
+      <span>Back to Eager</span>
+      <span class="btn-arrow" aria-hidden="true">&#8594;</span>
+    </a>
+  </div>
+
+  <footer class="site-footer">
+    Built with Claude as part of the AB Talks 60-Day Claude AI Challenge.
+  </footer>
+</body>
+</html>
