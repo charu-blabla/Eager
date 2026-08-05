@@ -126,4 +126,18 @@ A running record of daily progress for the AB Talks 60-Day Claude AI Challenge �
 
 ---
 
-## Day 9 — *(not yet started)*
+## Day 9 — Release Readiness Review
+
+**Focus:** Full pre-launch review — SEO, social sharing, documentation, repo polish. No new features.
+
+- **SEO/social metadata:** added full Open Graph + Twitter Card tags, canonical URL, theme-color, meta description — a custom-generated branded OG image (matching the Precision Workshop violet/slate theme) now shows up correctly when the link is shared. Verified via LinkedIn's Post Inspector.
+- **README.md rewritten** into a genuinely professional, portfolio-ready doc: problem/solution framing, feature list, tech stack table, local setup instructions, links to all the design docs, known limitations, license
+- **Branded 404 page** added (was previously Netlify's generic default error page)
+- **Repo cleanup:** deleted the stray duplicate `PRD.md` that had been sitting at the repo root since Day 2's merge conflict
+- **`package.json` metadata completed:** repository URL, homepage, author, license fields (previously minimal)
+- **GitHub repo "About" section** updated with the live URL and discoverability topics
+- Verified live deployment matches local build exactly; full end-to-end flow re-confirmed on production after all changes
+
+---
+
+## Day 10 — *(not yet started)*

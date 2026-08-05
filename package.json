@@ -1,9 +1,16 @@
 {
   "name": "eager",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "AI-personalized project idea generator for students — AB Talks 60-Day Claude AI Challenge capstone.",
+  "description": "AI-personalized project idea generator for students — matches skill level, stack, and time to a curated idea bank, then personalizes it with AI. Built as part of the AB Talks 60-Day Claude AI Challenge.",
+  "homepage": "https://eager-capstone.netlify.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/charu-blabla/Eager.git"
+  },
+  "author": "Charu Malhotra",
+  "license": "MIT",
   "scripts": {
     "dev": "netlify dev"
   }
