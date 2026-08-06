@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>60 Days to Eager — The Journey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --violet: #7C3AED;
+    --violet-dark: #5B21B6;
+    --violet-tint: #F3EEFE;
+    --gold: #D97706;
+    --bg: #0F172A;
+    --surface: #1E293B;
+    --surface-light: #334155;
+    --text: #F1F5F9;
+    --text-muted: #94A3B8;
+    --font-heading: 'Hanken Grotesk', sans-serif;
+    --font-body: 'Manrope', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 4rem 1.5rem 5rem; position: relative; }
+
+  body::before, body::after {
+    content: ""; position: fixed; border-radius: 50%; filter: blur(80px); z-index: 0; pointer-events: none;
+  }
+  body::before { width: 500px; height: 500px; top: -200px; right: -200px; background: radial-gradient(circle, rgba(124,58,237,0.25) 0%, transparent 70%); }
+  body::after { width: 500px; height: 500px; bottom: -200px; left: -200px; background: radial-gradient(circle, rgba(217,119,6,0.15) 0%, transparent 70%); }
+
+  .hero { text-align: center; margin-bottom: 4rem; position: relative; z-index: 1; }
+  .hero-kicker {
+    font-family: var(--font-mono); font-size: 0.85rem; letter-spacing: 0.15em;
+    color: var(--gold); text-transform: uppercase; margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-family: var(--font-heading); font-weight: 800; font-size: 3.2rem;
+    letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 1rem;
+    background: linear-gradient(135deg, #fff 0%, #C4B5FD 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero p { color: var(--text-muted); font-size: 1.15rem; max-width: 600px; margin: 0 auto; }
+
+  .stats-row {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+    margin: 3rem 0; position: relative; z-index: 1;
+  }
+  .stat {
+    background: var(--surface); border: 1px solid var(--surface-light);
+    border-radius: 16px; padding: 1.5rem 1rem; text-align: center;
+  }
+  .stat-num {
+    font-family: var(--font-heading); font-weight: 800; font-size: 2.2rem;
+    color: var(--violet); line-height: 1;
+  }
+  .stat-label { color: var(--text-muted); font-size: 0.82rem; margin-top: 0.5rem; }
+
+  .section-title {
+    font-family: var(--font-heading); font-weight: 700; font-size: 1.6rem;
+    margin: 3.5rem 0 1.75rem; position: relative; z-index: 1;
+  }
+
+  .timeline { position: relative; z-index: 1; padding-left: 2rem; border-left: 2px solid var(--surface-light); }
+  .phase {
+    position: relative; margin-bottom: 2rem; background: var(--surface);
+    border: 1px solid var(--surface-light); border-radius: 14px; padding: 1.25rem 1.5rem;
+  }
+  .phase::before {
+    content: ""; position: absolute; left: -2.45rem; top: 1.5rem; width: 12px; height: 12px;
+    border-radius: 50%; background: var(--violet); box-shadow: 0 0 0 4px rgba(124,58,237,0.2);
+  }
+  .phase-days { font-family: var(--font-mono); font-size: 0.75rem; color: var(--gold); margin-bottom: 0.35rem; }
+  .phase-title { font-family: var(--font-heading); font-weight: 700; font-size: 1.05rem; margin-bottom: 0.4rem; }
+  .phase-desc { color: var(--text-muted); font-size: 0.9rem; }
+
+  .capstone-block {
+    position: relative; z-index: 1; margin-top: 1rem;
+    background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+    border-radius: 22px; padding: 2.5rem; text-align: center;
+    box-shadow: 0 20px 50px rgba(124,58,237,0.35);
+  }
+  .capstone-block .phase-days { color: #DDD6FE; }
+  .capstone-block h3 { font-family: var(--font-heading); font-size: 1.8rem; margin: 0.5rem 0 0.75rem; }
+  .capstone-block p { color: #EDE9FE; max-width: 560px; margin: 0 auto 1.5rem; }
+  .capstone-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+  .capstone-tag {
+    background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 999px; padding: 0.4rem 1rem; font-size: 0.8rem; font-weight: 600;
+  }
+
+  .skills-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+    position: relative; z-index: 1;
+  }
+  .skill-card {
+    background: var(--surface); border: 1px solid var(--surface-light);
+    border-radius: 14px; padding: 1.25rem;
+  }
+  .skill-card-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.4rem; color: var(--violet); }
+  .skill-card-desc { color: var(--text-muted); font-size: 0.82rem; }
+
+  footer {
+    text-align: center; color: var(--text-muted); font-size: 0.85rem;
+    margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--surface-light);
+    position: relative; z-index: 1;
+  }
+  footer a { color: var(--violet-tint); }
+
+  @media (max-width: 700px) {
+    .hero h1 { font-size: 2.2rem; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .skills-grid { grid-template-columns: 1fr; }
+  }
+  @media print {
+    body::before, body::after { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="hero-kicker">AB Talks · 60-Day Claude AI Challenge</div>
+    <h1>60 Days of Learning.<br>One Shipped Product.</h1>
+    <p>From AI fundamentals to a security-reviewed, publicly deployed application — the full arc, ending with Eager.</p>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num">60</div><div class="stat-label">Days of Challenge</div></div>
+    <div class="stat"><div class="stat-num">10</div><div class="stat-label">Day Capstone Sprint</div></div>
+    <div class="stat"><div class="stat-num">40</div><div class="stat-label">Curated Ideas Shipped</div></div>
+    <div class="stat"><div class="stat-num">v1.0.0</div><div class="stat-label">Production Release</div></div>
+  </div>
+
+  <div class="section-title">The 60-Day Arc</div>
+  <div class="timeline">
+    <div class="phase">
+      <div class="phase-days">FOUNDATIONS</div>
+      <div class="phase-title">AI Fundamentals &amp; Effective Prompting</div>
+      <div class="phase-desc">Core mechanics of how LLMs work, and how to actually communicate with them — the skill every later phase depended on.</div>
+    </div>
+    <div class="phase">
+      <div class="phase-days">REASONING &amp; RESEARCH</div>
+      <div class="phase-title">Structured Thinking &amp; Research Workflows</div>
+      <div class="phase-desc">Moving from single prompts to multi-step reasoning and real research processes — the groundwork for the Day 1 product-discovery interview that shaped Eager.</div>
+    </div>
+    <div class="phase">
+      <div class="phase-days">AUTOMATION &amp; PRODUCT THINKING</div>
+      <div class="phase-title">From Prompts to Systems</div>
+      <div class="phase-desc">Automation patterns and genuine product thinking — scope discipline, user framing, the instincts that made Eager's PRD possible before any code existed.</div>
+    </div>
+    <div class="phase">
+      <div class="phase-days">MULTIMODAL &amp; KNOWLEDGE SYSTEMS</div>
+      <div class="phase-title">Richer Inputs, Structured Knowledge</div>
+      <div class="phase-desc">Working across formats and building systems that organize knowledge — direct groundwork for Eager's hybrid curated-bank-plus-AI architecture.</div>
+    </div>
+    <div class="phase">
+      <div class="phase-days">AGENTIC &amp; MULTI-AGENT SYSTEMS</div>
+      <div class="phase-title">Increasingly Sophisticated AI Projects</div>
+      <div class="phase-desc">Autonomous agent architecture and multi-agent collaboration — the most advanced pre-capstone work, building the confidence to run a full 10-day build independently.</div>
+    </div>
+  </div>
+
+  <div class="capstone-block">
+    <div class="phase-days">DAYS 51–60 · THE CAPSTONE</div>
+    <h3>Eager</h3>
+    <p>A real product, not an exercise: full SDLC from a Day 1 discovery interview to a Day 10 v1.0.0 release — including a live mid-build AI-provider pivot, a self-caught security vulnerability, and a redesign shipped on direct feedback.</p>
+    <div class="capstone-tags">
+      <span class="capstone-tag">Requirements → Architecture → Build</span>
+      <span class="capstone-tag">Live Debugging Under Pressure</span>
+      <span class="capstone-tag">Security Review</span>
+      <span class="capstone-tag">Production Deployment</span>
+    </div>
+  </div>
+
+  <div class="section-title">What the Full Journey Built</div>
+  <div class="skills-grid">
+    <div class="skill-card"><div class="skill-card-title">Prompt &amp; System Design</div><div class="skill-card-desc">From single prompts to a full server-side prompt engineering system generating structured JSON reliably.</div></div>
+    <div class="skill-card"><div class="skill-card-title">Product Discovery</div><div class="skill-card-desc">Real user-interview-style discovery, translated into a locked PRD before writing a line of code.</div></div>
+    <div class="skill-card"><div class="skill-card-title">Architecture Under Constraint</div><div class="skill-card-desc">No-database, no-paid-tools design decisions made deliberately, not by accident.</div></div>
+    <div class="skill-card"><div class="skill-card-title">Live Debugging</div><div class="skill-card-desc">Six sequential real API failures resolved same-day by reading errors, not guessing.</div></div>
+    <div class="skill-card"><div class="skill-card-title">Security Review</div><div class="skill-card-desc">A genuine High-severity finding, caught and fixed through disciplined self-review.</div></div>
+    <div class="skill-card"><div class="skill-card-title">Scope Discipline</div><div class="skill-card-desc">Turning down most of a beautiful redesign, keeping exactly what served the product.</div></div>
+  </div>
+
+  <footer>
+    Built with Claude as part of the AB Talks 60-Day Claude AI Challenge · <a href="https://eager-capstone.netlify.app">eager-capstone.netlify.app</a>
+  </footer>
+
+</div>
+</body>
+</html>
