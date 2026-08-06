@@ -26,13 +26,13 @@ That combination means the output is always reliable and specific — never gene
 
 ## Features
 
-- 🎯 **Smart matching** — filters the idea bank by skill level, tech stack, and time budget, with a graceful fallback if nothing matches exactly
-- 🤖 **AI personalization** — every idea expands into a brief built for you, not a template
-- 📁 **Folder structure** — a ready-to-use scaffold sized to your chosen stack
-- 🗺️ **Learning roadmap** — a week-by-week plan that fits your actual available time
-- 📝 **Resume description** — a one-line, resume-ready summary generated with the idea
-- ⭐ **Favorites** — star any idea to revisit it later (saved in your browser, no account needed)
-- 🔗 **Share** — copy a link to any personalized idea and send it to someone else
+-  **Smart matching** — filters the idea bank by skill level, tech stack, and time budget, with a graceful fallback if nothing matches exactly
+-  **AI personalization** — every idea expands into a brief built for you, not a template
+-  **Folder structure** — a ready-to-use scaffold sized to your chosen stack
+-  **Learning roadmap** — a week-by-week plan that fits your actual available time
+-  **Resume description** — a one-line, resume-ready summary generated with the idea
+-  **Favorites** — star any idea to revisit it later (saved in your browser, no account needed)
+-  **Share** — copy a link to any personalized idea and send it to someone else
 
 ## Screenshots
 
