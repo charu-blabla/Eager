@@ -5,7 +5,7 @@
 import { STACK_OPTIONS } from "../data/stacks.js";
 import { isFavorited, getFavorites } from "./favorites.js";
 
-const DOMAIN_LABELS = { Web: "WEB", Mobile: "MOBILE", AI: "AI", DSA: "DSA" };
+const DOMAIN_LABELS = { Web: "&#127760; WEB", Mobile: "&#128241; MOBILE", AI: "&#129302; AI", DSA: "&#129513; DSA" };
 
 // Escapes text before inserting into innerHTML — applied to ALL dynamic
 // content, including AI-generated text, which isn't 100% predictable.
@@ -253,7 +253,7 @@ export function renderIdeaDetail(container, idea, brief, onBack, onFavoritesClic
       </div>
 
       <section class="detail-section">
-        <h3 class="detail-section-title">Features</h3>
+        <h3 class="detail-section-title">&#9889; Features</h3>
         ${mustHave.length > 0 ? `<p class="detail-subheading">Must-Have</p><ul class="feature-list">${mustHave.map((f) => `<li>${escapeHTML(f)}</li>`).join("")}</ul>` : `<p class="empty-state-text">No features generated.</p>`}
         ${
           stretch.length > 0
@@ -263,12 +263,12 @@ export function renderIdeaDetail(container, idea, brief, onBack, onFavoritesClic
       </section>
 
       <section class="detail-section">
-        <h3 class="detail-section-title">Folder Structure</h3>
+        <h3 class="detail-section-title">&#128193; Folder Structure</h3>
         <pre class="folder-structure">${escapeHTML(folderStructure) || "Not available."}</pre>
       </section>
 
       <section class="detail-section">
-        <h3 class="detail-section-title">Learning Roadmap</h3>
+        <h3 class="detail-section-title">&#128506;&#65039; Learning Roadmap</h3>
         ${
           roadmap.length > 0
             ? `<ol class="roadmap-list">${roadmap.map((r) => `<li><strong>Week ${escapeHTML(r.week)}:</strong> ${escapeHTML(r.focus)}</li>`).join("")}</ol>`
@@ -277,7 +277,7 @@ export function renderIdeaDetail(container, idea, brief, onBack, onFavoritesClic
       </section>
 
       <section class="detail-section">
-        <h3 class="detail-section-title">Resume Description</h3>
+        <h3 class="detail-section-title">&#128221; Resume Description</h3>
         <div class="resume-box">
           <p id="resume-text">${escapeHTML(resumeDescription) || "Not available."}</p>
           <button class="btn-link" id="copy-resume-btn" ${resumeDescription ? "" : "disabled"}>Copy</button>
